@@ -50,6 +50,33 @@ exports.createSession = async (req, res) => {
     }
 };
 
+// @desc    Manually cancel/end a session
+// @route   PUT /api/teacher/sessions/:id/cancel
+// @access  Private (Teacher)
+exports.cancelSession = async (req, res) => {
+    try {
+        const sessionId = req.params.id;
+        const session = await Session.findById(sessionId).populate('course');
+
+        if (!session) {
+            return res.status(404).json({ message: 'Session not found' });
+        }
+
+        if (session.course.teacher.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to cancel this session' });
+        }
+
+        session.isActive = false;
+        session.expiresAt = new Date();
+        await session.save();
+
+        return res.json({ message: 'Session cancelled successfully', session });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ message: error.message });
+    }
+};
+
 // @desc    Get all courses for logged-in teacher
 // @route   GET /api/teacher/courses
 // @access  Private (Teacher)
@@ -59,6 +86,70 @@ exports.getTeacherCourses = async (req, res) => {
         res.json(courses);
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get all sessions for a specific course owned by the teacher
+// @route   GET /api/teacher/courses/:id/sessions
+// @access  Private (Teacher)
+exports.getCourseSessions = async (req, res) => {
+    try {
+        const courseId = req.params.id;
+
+        // Ensure course exists and belongs to this teacher
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        if (course.teacher.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized for this course' });
+        }
+
+        // Fetch all sessions for this course, newest first
+        const sessions = await Session.find({ course: courseId }).sort({ createdAt: -1 });
+        return res.json(sessions);
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get details for a specific session (including QR data)
+// @route   GET /api/teacher/sessions/:id/details
+// @access  Private (Teacher)
+exports.getSessionDetails = async (req, res) => {
+    try {
+        const sessionId = req.params.id;
+        const session = await Session.findById(sessionId).populate('course');
+
+        if (!session) {
+            return res.status(404).json({ message: 'Session not found' });
+        }
+
+        if (session.course.teacher.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized for this session' });
+        }
+
+        let qrCode = null;
+        try {
+            qrCode = JSON.parse(session.qrCodeData);
+        } catch (e) {
+            qrCode = session.qrCodeData;
+        }
+
+        return res.json({
+            _id: session._id,
+            courseId: session.course._id,
+            courseName: session.course.name,
+            createdAt: session.createdAt,
+            expiresAt: session.expiresAt,
+            isActive: session.isActive,
+            qrCode,
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ message: error.message });
     }
 };
 

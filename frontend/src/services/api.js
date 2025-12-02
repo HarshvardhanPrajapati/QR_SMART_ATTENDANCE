@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+// For local development, point to your local backend
+// You can later make this dynamic via Vite env vars if needed.
 const API = axios.create({
-    baseURL: 'https://qr-smart-attendance.vercel.app/api', // Adjust if your backend port is different
+    baseURL: 'http://localhost:5000/api',
     headers: {
         'Content-Type': 'application/json',
     },

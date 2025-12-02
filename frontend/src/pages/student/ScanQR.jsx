@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useState, useEffect, useRef } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
 import Navbar from '../../components/common/Navbar';
 import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
@@ -11,39 +11,66 @@ const ScanQR = () => {
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [scanner, setScanner] = useState(null);
+  const html5QrCodeRef = useRef(null);
+  const [cameraError, setCameraError] = useState(null);
 
   useEffect(() => {
     return () => {
       // Cleanup scanner on unmount
-      if (scanner) {
-        scanner.clear().catch(console.error);
+      if (html5QrCodeRef.current) {
+        html5QrCodeRef.current
+          .stop()
+          .then(() => html5QrCodeRef.current.clear())
+          .catch(() => {});
       }
     };
-  }, [scanner]);
+  }, []);
 
   const startScanning = () => {
+    if (scanning) return;
     setScanning(true);
     setResult(null);
+    setCameraError(null);
 
-    const html5QrcodeScanner = new Html5QrcodeScanner(
-      'qr-reader',
-      {
-        fps: 10,
-        qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0,
-      },
-      false
-    );
+    const html5QrCode = new Html5Qrcode('qr-reader', /* verbose= */ false);
+    html5QrCodeRef.current = html5QrCode;
 
-    html5QrcodeScanner.render(onScanSuccess, onScanError);
-    setScanner(html5QrcodeScanner);
+    const config = {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+      aspectRatio: 1.0,
+    };
+
+    html5QrCode
+      .start(
+        { facingMode: 'environment' }, // prefer back camera on supported devices
+        config,
+        onScanSuccess,
+        onScanError
+      )
+      .catch((err) => {
+        console.error('Camera error:', err);
+        setCameraError(
+          err?.message ||
+            'Unable to access camera. Please allow camera permission and try again.'
+        );
+        setScanning(false);
+        if (html5QrCodeRef.current) {
+          html5QrCodeRef.current.clear().catch(() => {});
+          html5QrCodeRef.current = null;
+        }
+      });
   };
 
   const stopScanning = () => {
-    if (scanner) {
-      scanner.clear().catch(console.error);
-      setScanner(null);
+    if (html5QrCodeRef.current) {
+      html5QrCodeRef.current
+        .stop()
+        .then(() => html5QrCodeRef.current.clear())
+        .catch(() => {})
+        .finally(() => {
+          html5QrCodeRef.current = null;
+        });
     }
     setScanning(false);
   };
@@ -141,6 +168,9 @@ const ScanQR = () => {
                   <p className="text-gray-600 mb-6">
                     Click the button below to start scanning
                   </p>
+                  <p className="text-xs text-gray-500 mb-2">
+                    Your browser may ask for camera permission. Use the back camera for best results.
+                  </p>
                   <button onClick={startScanning} className="btn-primary">
                     Start Scanning
                   </button>
@@ -148,13 +178,25 @@ const ScanQR = () => {
               )}
 
               {scanning && (
-                <div>
-                  <div id="qr-reader" className="w-full"></div>
+                <div className="flex flex-col items-center py-4">
+                  <div
+                    id="qr-reader"
+                    className="w-full max-w-sm aspect-square rounded-xl overflow-hidden border-2 border-primary-500 shadow-lg bg-black"
+                  ></div>
+                  <p className="text-xs text-gray-500 mt-3">
+                    Point the QR squarely in the frame. Hold steady for a moment.
+                  </p>
                   <div className="text-center mt-4">
                     <button onClick={stopScanning} className="btn-secondary">
                       Stop Scanning
                     </button>
                   </div>
+                </div>
+              )}
+
+              {cameraError && !loading && (
+                <div className="mt-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                  {cameraError}
                 </div>
               )}
 

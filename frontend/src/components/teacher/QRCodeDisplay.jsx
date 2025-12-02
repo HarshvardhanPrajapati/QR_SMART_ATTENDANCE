@@ -12,7 +12,10 @@ const QRCodeDisplay = ({ qrData, expiresAt, courseName, onFullScreen }) => {
             const expiry = new Date(expiresAt).getTime();
             const distance = expiry - now;
 
-            if (distance < 0) {
+            // Allow a small drift window before treating as expired
+            // so that very short sessions (1–2 minutes) don't instantly
+            // flip to EXPIRED due to minor clock differences.
+            if (distance < -2000) {
                 clearInterval(interval);
                 setTimeLeft("EXPIRED");
                 setIsExpired(true);
