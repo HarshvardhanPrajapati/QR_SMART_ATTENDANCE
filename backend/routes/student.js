@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { markAttendance, getAttendanceHistory } = require('../controllers/studentController');
-const { protect } = require('../middleware/auth');
-const { authorize } = require('../middleware/roleCheck');
+const { markAttendance, getAttendanceHistory } = require('../controllers/studentController.js');
+const { protect } = require('../middleware/auth.js');
+const { authorize } = require('../middleware/roleCheck.js');
 
 // All routes here are protected and for Students only
 router.use(protect);

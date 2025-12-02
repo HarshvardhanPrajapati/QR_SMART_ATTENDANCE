@@ -1,18 +1,21 @@
-const Attendance = require('../models/Attendance');
-const Session = require('../models/Session');
-const Student = require('../models/Student');
-const { validateQRData } = require('../utils/qrGenerator');
+const Attendance = require('../models/Attendance.js');
+const Session = require('../models/Session.js');
+const Student = require('../models/Student.js');
+const { validateQRData } = require('../utils/qrGenerator.js');
 
 // @desc    Mark attendance via QR scan
 // @route   POST /api/student/mark-attendance
 // @access  Private (Student)
 exports.markAttendance = async (req, res) => {
     try {
+        console.log("The qr Result is: ",req.body.qrResult);
+
         const { qrResult, location } = req.body; // qrResult is the data scanned
         
         // 1. Decrypt and Validate QR
         const decryptedData = validateQRData(qrResult);
         if (!decryptedData) {
+            console.log("Decrypted data me dikkat hai QR ke\n");
             return res.status(400).json({ message: 'Invalid QR Code' });
         }
 
@@ -60,6 +63,7 @@ exports.markAttendance = async (req, res) => {
         res.status(201).json({ message: 'Attendance marked successfully', data: newAttendance });
 
     } catch (error) {
+        console.log("QR scanning error.\n");
         res.status(500).json({ message: error.message });
     }
 };

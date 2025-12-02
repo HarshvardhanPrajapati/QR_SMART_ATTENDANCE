@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'http://localhost:5000/api', // Adjust if your backend port is different
+    baseURL: 'https://qr-smart-attendance.vercel.app/api', // Adjust if your backend port is different
     headers: {
         'Content-Type': 'application/json',
     },
