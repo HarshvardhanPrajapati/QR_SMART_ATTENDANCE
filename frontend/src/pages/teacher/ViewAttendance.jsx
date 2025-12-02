@@ -124,7 +124,7 @@ import Navbar from '../../components/common/Navbar';
 import API from '../../services/api';
 import AttendanceList from '../../components/teacher/AttendanceList';
 import SessionCard from '../../components/teacher/SessionCard';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 const ViewAttendance = () => {
     const { courseId } = useParams();
@@ -134,23 +134,47 @@ const ViewAttendance = () => {
     const [selectedSession, setSelectedSession] = useState(null);
     const [attendanceData, setAttendanceData] = useState([]);
     const [courseInfo, setCourseInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // 1. Load Sessions for this Course
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch Course Info
-                const res = await API.get('/teacher/courses'); 
-                const course = res.data.find(c => c._id === courseId);
-                setCourseInfo(course);
+                setLoading(true);
+                setError(null);
 
-                // Mocking Session Data 
-                setSessions([
-                    { _id: '1', createdAt: new Date().toISOString() },
-                    { _id: '2', createdAt: new Date(Date.now() - 86400000).toISOString() }
-                ]);
+                // Fetch all teacher courses and derive this course's info
+                const coursesRes = await API.get('/teacher/courses');
+                const course = coursesRes.data.find(c => c._id === courseId);
+                setCourseInfo(course || null);
+
+                // Fetch real sessions for this course
+                const sessionsRes = await API.get(`/teacher/courses/${courseId}/sessions`);
+                setSessions(sessionsRes.data || []);
+
+                // Optionally auto-select the most recent session
+                if (sessionsRes.data && sessionsRes.data.length > 0) {
+                    setSelectedSession(sessionsRes.data[0]);
+
+                    // Preload attendance for the latest session
+                    try {
+                        const attendanceRes = await API.get(`/teacher/sessions/${sessionsRes.data[0]._id}/attendance`);
+                        setAttendanceData(attendanceRes.data || []);
+                    } catch (attendanceErr) {
+                        console.error('Error preloading attendance', attendanceErr);
+                        setAttendanceData([]);
+                    }
+                } else {
+                    setSelectedSession(null);
+                    setAttendanceData([]);
+                }
             } catch (err) {
                 console.error("Error loading data", err);
+                setError('Failed to load sessions. Please try again later.');
+            }
+            finally {
+                setLoading(false);
             }
         };
         fetchData();
@@ -180,6 +204,12 @@ const ViewAttendance = () => {
                     <ArrowLeft size={20} /> Back to Dashboard
                 </button>
 
+                {error && (
+                    <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+                        {error}
+                    </div>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     
                     {/* Left: Session List using Component */}
@@ -188,16 +218,24 @@ const ViewAttendance = () => {
                             <h2 className="font-bold text-lg mb-4 text-slate-800 dark:text-white">
                                 {courseInfo?.name || 'Course'} History
                             </h2>
-                            <div className="space-y-2">
-                                {sessions.map((session) => (
-                                    <SessionCard 
-                                        key={session._id} 
-                                        session={session} 
-                                        isSelected={selectedSession?._id === session._id}
-                                        onClick={() => handleSessionClick(session)} 
-                                    />
-                                ))}
-                            </div>
+                            {loading ? (
+                                <p className="text-sm text-slate-500">Loading sessions...</p>
+                            ) : sessions.length === 0 ? (
+                                <p className="text-sm text-slate-500">
+                                    No sessions found yet for this course.
+                                </p>
+                            ) : (
+                                <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+                                    {sessions.map((session) => (
+                                        <SessionCard 
+                                            key={session._id} 
+                                            session={session} 
+                                            isSelected={selectedSession?._id === session._id}
+                                            onClick={() => handleSessionClick(session)} 
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
 

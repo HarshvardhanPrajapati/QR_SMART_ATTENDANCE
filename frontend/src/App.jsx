@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, AuthContext } from './context/AuthContext';
+import AuthProvider, { AuthContext } from './context/AuthContext';
 
 // Pages (We will create these next)
 import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentDashboard from './pages/student/StudentDashboard';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
+import LiveSession from './pages/teacher/LiveSession';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import GenerateQR from './pages/teacher/GenerateQR';
@@ -49,8 +50,9 @@ function App() {
               <Routes>
                   <Route path="dashboard" element={<TeacherDashboard />} />
                   <Route path="generate-qr" element={<GenerateQR />} />
-                  {/* The new route */}
+                  {/* Course history & live session routes */}
                   <Route path="courses/:courseId" element={<ViewAttendance />} />
+                  <Route path="sessions/:sessionId/live" element={<LiveSession />} />
               </Routes>
             </ProtectedRoute>
           } />

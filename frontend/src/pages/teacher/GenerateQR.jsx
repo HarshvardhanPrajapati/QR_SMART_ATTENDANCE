@@ -49,9 +49,18 @@ const GenerateQR = () => {
         }
     };
 
-    const handleCloseSession = () => {
-        setActiveSession(null);
-        // Optional: Call API to end session manually [cite: 99]
+    const handleCloseSession = async () => {
+        if (!activeSession?.sessionId) {
+            setActiveSession(null);
+            return;
+        }
+        try {
+            await API.put(`/teacher/sessions/${activeSession.sessionId}/cancel`);
+        } catch (error) {
+            console.error('Failed to cancel session', error);
+        } finally {
+            setActiveSession(null);
+        }
     };
 
     return (
@@ -66,13 +75,15 @@ const GenerateQR = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         className="w-full max-w-4xl"
                     >
-                        <div className="flex items-center gap-2 mb-6">
-                            <button onClick={handleCloseSession} className="text-slate-500 hover:text-slate-800 flex items-center gap-1">
-                                <ArrowLeft size={20} /> Back
-                            </button>
-                            <span className="text-slate-300">|</span>
-                            <span className="text-green-500 font-bold animate-pulse">● Live Session Active</span>
-                        </div>
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center gap-2">
+                                    <button onClick={handleCloseSession} className="text-slate-500 hover:text-slate-800 flex items-center gap-1">
+                                        <ArrowLeft size={20} /> End Session
+                                    </button>
+                                    <span className="text-slate-300">|</span>
+                                    <span className="text-green-500 font-bold animate-pulse">● Live Session Active</span>
+                                </div>
+                            </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {/* Left: QR Display */}

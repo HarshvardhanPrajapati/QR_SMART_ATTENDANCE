@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const http = require('http');
+const { Server } = require('socket.io');
 const connectDB = require('./config/database');
 
 // Load env vars
@@ -14,6 +16,38 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(cors());
+
+// Create HTTP server & Socket.io instance
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    },
+});
+
+// Make io available in routes/controllers
+app.set('io', io);
+
+io.on('connection', (socket) => {
+    console.log('Socket connected:', socket.id);
+
+    socket.on('joinSession', (sessionId) => {
+        if (!sessionId) return;
+        socket.join(String(sessionId));
+        console.log(`Socket ${socket.id} joined session room ${sessionId}`);
+    });
+
+    socket.on('leaveSession', (sessionId) => {
+        if (!sessionId) return;
+        socket.leave(String(sessionId));
+        console.log(`Socket ${socket.id} left session room ${sessionId}`);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Socket disconnected:', socket.id);
+    });
+});
 
 // Import Routes
 const authRoutes = require('./routes/auth');
@@ -40,6 +74,6 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });

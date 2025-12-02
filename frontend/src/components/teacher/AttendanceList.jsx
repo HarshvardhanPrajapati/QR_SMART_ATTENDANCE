@@ -1,7 +1,9 @@
 import React from 'react';
-import { CheckCircle, XCircle, Download } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { CheckCircle, Download } from 'lucide-react';
 
-const AttendanceList = ({ sessionData, attendanceData }) => {
+const AttendanceList = ({ sessionData, attendanceData, showLiveButton = true }) => {
+    const navigate = useNavigate();
     
     const exportToCSV = () => {
         // Simple CSV Export Logic
@@ -38,12 +40,22 @@ const AttendanceList = ({ sessionData, attendanceData }) => {
                         {new Date(sessionData.createdAt).toLocaleTimeString()} • {attendanceData.length} Students Present
                     </p>
                 </div>
-                <button 
-                    onClick={exportToCSV}
-                    className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors"
-                >
-                    <Download size={16} /> Export CSV
-                </button>
+                <div className="flex items-center gap-3">
+                    {showLiveButton && (
+                        <button 
+                            onClick={() => navigate(`/teacher/sessions/${sessionData._id}/live`)}
+                            className="flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-4 py-2 rounded-lg transition-colors"
+                        >
+                            Open Live View
+                        </button>
+                    )}
+                    <button 
+                        onClick={exportToCSV}
+                        className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors"
+                    >
+                        <Download size={16} /> Export CSV
+                    </button>
+                </div>
             </div>
 
             <div className="overflow-x-auto">

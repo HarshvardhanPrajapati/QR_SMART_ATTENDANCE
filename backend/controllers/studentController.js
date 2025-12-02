@@ -59,6 +59,22 @@ exports.markAttendance = async (req, res) => {
             status: 'Present',
             location // Optional geo-coords
         });
+        
+        // Populate minimal fields for realtime updates
+        const populatedAttendance = await Attendance.findById(newAttendance._id)
+            .populate({
+                path: 'student',
+                populate: { path: 'user', select: 'name email' }
+            });
+
+        // Emit socket event for live session views (if io is available)
+        const io = req.app.get('io');
+        if (io) {
+            io.to(String(sessionId)).emit('attendance:marked', {
+                sessionId: String(sessionId),
+                attendance: populatedAttendance,
+            });
+        }
 
         res.status(201).json({ message: 'Attendance marked successfully', data: newAttendance });
 

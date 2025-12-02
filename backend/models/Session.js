@@ -25,7 +25,8 @@ const sessionSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// Index to automatically expire sessions if needed, though we handle logic in controller
-sessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+// Note: we intentionally do NOT use a TTL index on expiresAt anymore.
+// Expiry and validity are enforced in application logic (controllers)
+// to avoid sessions disappearing or being treated as expired too early.
 
 module.exports = mongoose.model('Session', sessionSchema);
