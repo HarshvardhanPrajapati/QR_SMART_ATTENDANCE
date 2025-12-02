@@ -71,7 +71,7 @@ exports.getSessionAttendance = async (req, res) => {
     
     
     try {
-        const attendance = await Attendance.find({ session: req.params.id })
+        const attendance = await Attendance.find({ session: Number(req.params.id) })
             .populate('student', 'rollNumber user') // Get student details
             .populate({
                 path: 'student',
