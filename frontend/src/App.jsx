@@ -6,9 +6,12 @@ import AuthProvider, { AuthContext } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentDashboard from './pages/student/StudentDashboard';
+import CourseAttendanceDetail from './pages/student/CourseAttendanceDetail';
 import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import LiveSession from './pages/teacher/LiveSession';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageCourses from './pages/admin/ManageCourses';
+import CourseDetails from './pages/admin/CourseDetails';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import GenerateQR from './pages/teacher/GenerateQR';
 import ViewAttendance from './pages/teacher/ViewAttendance';
@@ -38,6 +41,7 @@ function App() {
             <ProtectedRoute allowedRoles={['student']}>
                <Routes>
                   <Route path="dashboard" element={<StudentDashboard />} />
+                  <Route path="courses/:courseId/attendance" element={<CourseAttendanceDetail />} />
                   {/* Add other student sub-routes here */}
                </Routes>
             </ProtectedRoute>
@@ -62,6 +66,8 @@ function App() {
             <ProtectedRoute allowedRoles={['admin']}>
                <Routes>
                   <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="courses" element={<ManageCourses />} />
+                  <Route path="courses/:courseId" element={<CourseDetails />} />
                </Routes>
             </ProtectedRoute>
           } />

@@ -43,7 +43,12 @@ const GenerateQR = () => {
                 courseName: courses.find(c => c._id === selectedCourse)?.name
             });
         } catch (error) {
-            alert(error.response?.data?.message || 'Error creating session');
+            const errorMessage = error.response?.data?.message || 'Error creating session';
+            alert(errorMessage);
+            // If there's an active session, show it in the error
+            if (error.response?.data?.activeSessionId) {
+                alert('Please terminate the previous session first before creating a new one.');
+            }
         } finally {
             setLoading(false);
         }

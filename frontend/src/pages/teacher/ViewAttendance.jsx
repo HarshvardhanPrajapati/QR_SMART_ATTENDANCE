@@ -124,7 +124,7 @@ import Navbar from '../../components/common/Navbar';
 import API from '../../services/api';
 import AttendanceList from '../../components/teacher/AttendanceList';
 import SessionCard from '../../components/teacher/SessionCard';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Users } from 'lucide-react';
 
 const ViewAttendance = () => {
     const { courseId } = useParams();
@@ -134,6 +134,7 @@ const ViewAttendance = () => {
     const [selectedSession, setSelectedSession] = useState(null);
     const [attendanceData, setAttendanceData] = useState([]);
     const [courseInfo, setCourseInfo] = useState(null);
+    const [enrolledStudents, setEnrolledStudents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -154,6 +155,15 @@ const ViewAttendance = () => {
                 // Fetch real sessions for this course
                 const sessionsRes = await API.get(`/teacher/courses/${courseId}/sessions`);
                 setSessions(sessionsRes.data || []);
+
+                // Fetch enrolled students for this course
+                try {
+                    const studentsRes = await API.get(`/teacher/courses/${courseId}/students`);
+                    setEnrolledStudents(studentsRes.data || []);
+                } catch (studentsErr) {
+                    console.error('Error loading enrolled students', studentsErr);
+                    setEnrolledStudents([]);
+                }
 
                 // Optionally auto-select the most recent session
                 if (sessionsRes.data && sessionsRes.data.length > 0) {
@@ -211,6 +221,35 @@ const ViewAttendance = () => {
                         {error}
                     </div>
                 )}
+
+                {/* Enrolled Students Section */}
+                <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+                    <div className="flex items-center gap-2 mb-4">
+                        <Users className="text-blue-600 dark:text-blue-400" size={20} />
+                        <h2 className="font-bold text-lg text-slate-800 dark:text-white">
+                            Enrolled Students ({enrolledStudents.length})
+                        </h2>
+                    </div>
+                    {enrolledStudents.length === 0 ? (
+                        <p className="text-sm text-slate-500">No students enrolled yet.</p>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                            {enrolledStudents.map((enrollment) => (
+                                <div
+                                    key={enrollment._id}
+                                    className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                                >
+                                    <p className="font-medium text-slate-800 dark:text-white">
+                                        {enrollment.student?.user?.name}
+                                    </p>
+                                    <p className="text-xs text-slate-500">
+                                        {enrollment.student?.rollNumber} • {enrollment.student?.department}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     

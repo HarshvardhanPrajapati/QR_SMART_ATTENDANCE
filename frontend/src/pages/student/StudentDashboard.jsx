@@ -203,20 +203,22 @@
 // export default StudentDashboard;
 
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/common/Navbar';
 import QRScanner from '../../components/shared/QRScanner';
 import AttendanceHistory from '../../components/student/AttendanceHistory';
-import StatCard from '../../components/shared/StatCard';
 import API from '../../services/api';
 import { AuthContext } from '../../context/AuthContext';
-import { Scan, CheckCircle, XCircle, Clock, Percent } from 'lucide-react';
+import { Scan, CheckCircle, XCircle, Clock, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const StudentDashboard = () => {
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [showScanner, setShowScanner] = useState(false);
     const [stats, setStats] = useState({ present: 0, total: 0, percentage: 0 });
     const [recentHistory, setRecentHistory] = useState([]);
+    const [enrolledCourses, setEnrolledCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [scanResult, setScanResult] = useState({ type: '', message: '' });
 
@@ -227,9 +229,9 @@ const StudentDashboard = () => {
 
     const fetchDashboardData = async () => {
         try {
-            // Mocking data fetching for now - replace with actual endpoints later
-            const res = await API.get('/student/attendance');
-            const history = res.data;
+            // Fetch attendance history
+            const attendanceRes = await API.get('/student/attendance');
+            const history = attendanceRes.data;
             
             const total = history.length;
             const present = history.filter(h => h.status === 'Present').length;
@@ -240,6 +242,10 @@ const StudentDashboard = () => {
                 percentage: total > 0 ? Math.round((present / total) * 100) : 0
             });
             setRecentHistory(history.slice(0, 5)); // Top 5
+
+            // Fetch enrolled courses
+            const coursesRes = await API.get('/student/courses');
+            setEnrolledCourses(coursesRes.data || []);
         } catch (error) {
             console.error("Error fetching data", error);
         } finally {
@@ -283,12 +289,12 @@ const StudentDashboard = () => {
             <div className="container mx-auto px-4 mt-8">
                 
                 {/* Welcome & Scan Section */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="mb-8">
                     {/* Hero Card */}
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="md:col-span-2 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden"
+                        className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden"
                     >
                         <div className="relative z-10">
                             <h1 className="text-3xl font-bold mb-2">Hello, {user?.name?.split(' ')[0]}!</h1>
@@ -307,23 +313,67 @@ const StudentDashboard = () => {
                             <Scan size={250} />
                         </div>
                     </motion.div>
-
-                    {/* Stats using Shared Component */}
-                    <div className="grid gap-4">
-                        <StatCard 
-                            icon={Percent} 
-                            label="Attendance %" 
-                            value={`${stats.percentage}%`} 
-                            color="bg-emerald-500" 
-                        />
-                         <StatCard 
-                            icon={CheckCircle} 
-                            label="Classes Attended" 
-                            value={stats.present} 
-                            color="bg-blue-500" 
-                        />
-                    </div>
                 </div>
+
+                {/* Enrolled Courses */}
+                {enrolledCourses.length > 0 && (
+                    <>
+                        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                            <BookOpen size={20} /> My Courses
+                        </h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                            {enrolledCourses.map((item) => (
+                                <motion.div
+                                    key={item.course._id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    onClick={() => navigate(`/student/courses/${item.course._id}/attendance`)}
+                                    className="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer hover:border-blue-500"
+                                >
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
+                                            <BookOpen className="text-blue-600 dark:text-blue-400" size={20} />
+                                        </div>
+                                        <span className="text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded">
+                                            {item.course.code}
+                                        </span>
+                                    </div>
+                                    <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-1">
+                                        {item.course.name}
+                                    </h3>
+                                    <p className="text-xs text-slate-500 mb-4">
+                                        {item.course.department} • Sem {item.course.semester}
+                                    </p>
+                                    <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-sm text-slate-500">Attendance</span>
+                                            <span className={`text-2xl font-bold ${
+                                                item.attendancePercentage >= 75 
+                                                    ? 'text-green-600' 
+                                                    : 'text-red-600'
+                                            }`}>
+                                                {item.attendancePercentage}%
+                                            </span>
+                                        </div>
+                                        <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 mt-2">
+                                            <div
+                                                className={`h-2 rounded-full ${
+                                                    item.attendancePercentage >= 75 
+                                                        ? 'bg-green-600' 
+                                                        : 'bg-red-600'
+                                                }`}
+                                                style={{ width: `${item.attendancePercentage}%` }}
+                                            ></div>
+                                        </div>
+                                        <p className="text-xs text-slate-400 mt-2">
+                                            {item.presentCount} present / {item.totalSessions} sessions
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </>
+                )}
 
                 {/* Recent Activity */}
                 <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">

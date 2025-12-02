@@ -2,6 +2,7 @@ const Session = require('../models/Session.js');
 const Course = require('../models/Course.js');
 const { generateQRData } = require('../utils/qrGenerator.js');
 const Attendance = require('../models/Attendance');
+const Enrollment = require('../models/Enrollment');
 // @desc    Generate a new class session with QR code
 // @route   POST /api/teacher/sessions
 // @access  Private (Teacher only)
@@ -18,6 +19,21 @@ exports.createSession = async (req, res) => {
         // Check if teacher owns this course (assuming req.user is set by auth middleware)
         if (course.teacher.toString() !== req.user.id) {
              return res.status(403).json({ message: 'Not authorized for this course' });
+        }
+
+        // Check if there's already an active session for this course
+        const now = new Date();
+        const activeSession = await Session.findOne({
+            course: courseId,
+            isActive: true,
+            expiresAt: { $gt: now } // Session hasn't expired yet
+        });
+
+        if (activeSession) {
+            return res.status(400).json({ 
+                message: 'An active session is already running for this course. Please terminate the previous session before creating a new one.',
+                activeSessionId: activeSession._id
+            });
         }
 
         // Calculate expiration
@@ -171,6 +187,38 @@ exports.getSessionAttendance = async (req, res) => {
         res.json(attendance);
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get enrolled students for a course
+// @route   GET /api/teacher/courses/:id/students
+// @access  Private (Teacher)
+exports.getCourseStudents = async (req, res) => {
+    try {
+        const courseId = req.params.id;
+
+        // Ensure course exists and belongs to this teacher
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        if (course.teacher.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized for this course' });
+        }
+
+        // Get all active enrollments for this course
+        const enrollments = await Enrollment.find({ course: courseId, status: 'Active' })
+            .populate({
+                path: 'student',
+                populate: { path: 'user', select: 'name email' }
+            })
+            .sort({ enrollmentDate: -1 });
+
+        res.json(enrollments);
+    } catch (error) {
+        console.error(error.message);
         res.status(500).json({ message: error.message });
     }
 };

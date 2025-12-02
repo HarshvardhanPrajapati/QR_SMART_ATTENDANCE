@@ -122,15 +122,17 @@
 // export default AdminDashboard;
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/common/Navbar';
 import API from '../../services/api';
 import AddUserForm from '../../components/admin/AddUserForm';
 import AddCourseForm from '../../components/admin/AddCourseForm';
 import StatCard from '../../components/shared/StatCard';
 import Modal from '../../components/shared/Modal';
-import { Users, BookOpen, BarChart3, PlusCircle } from 'lucide-react';
+import { Users, BookOpen, BarChart3, PlusCircle, List } from 'lucide-react';
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
     const [stats, setStats] = useState({ students: 0, teachers: 0, courses: 0, totalAttendanceLogs: 0 });
     const [activeModal, setActiveModal] = useState(null); // 'user' or 'course' or null
 
@@ -169,7 +171,7 @@ const AdminDashboard = () => {
 
                 {/* Quick Actions */}
                 <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4">Quick Management</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <ActionCard 
                         title="Register New User" 
                         desc="Create accounts for Students or Teachers." 
@@ -181,6 +183,13 @@ const AdminDashboard = () => {
                         desc="Set up a course and assign a teacher." 
                         onClick={() => setActiveModal('course')}
                         color="from-purple-600 to-purple-400"
+                    />
+                    <ActionCard 
+                        title="Active Courses" 
+                        desc="View all courses and manage student enrollments." 
+                        onClick={() => navigate('/admin/courses')}
+                        color="from-emerald-600 to-emerald-400"
+                        icon={List}
                     />
                 </div>
             </div>
@@ -199,7 +208,7 @@ const AdminDashboard = () => {
 };
 
 // Helper Component for Actions (kept local as it wasn't requested to be shared)
-const ActionCard = ({ title, desc, onClick, color }) => (
+const ActionCard = ({ title, desc, onClick, color, icon: Icon = PlusCircle }) => (
     <button 
         onClick={onClick}
         className={`group relative overflow-hidden rounded-2xl p-8 text-left transition-all hover:shadow-xl hover:scale-[1.01]`}
@@ -207,7 +216,7 @@ const ActionCard = ({ title, desc, onClick, color }) => (
         <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-90`}></div>
         <div className="relative z-10 text-white">
             <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                <PlusCircle /> {title}
+                <Icon /> {title}
             </h3>
             <p className="text-white/80">{desc}</p>
         </div>
