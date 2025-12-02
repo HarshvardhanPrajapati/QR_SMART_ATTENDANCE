@@ -1,7 +1,7 @@
-const Session = require('../models/Session');
-const Course = require('../models/Course');
-const { generateQRData } = require('../utils/qrGenerator');
-
+const Session = require('../models/Session.js');
+const Course = require('../models/Course.js');
+const { generateQRData } = require('../utils/qrGenerator.js');
+const Attendance = require('../models/Attendance');
 // @desc    Generate a new class session with QR code
 // @route   POST /api/teacher/sessions
 // @access  Private (Teacher only)
@@ -68,7 +68,7 @@ exports.getTeacherCourses = async (req, res) => {
 exports.getSessionAttendance = async (req, res) => {
     // This requires the Attendance model, requiring circular dependency check in your mind
     // Ideally, import it at the top.
-    const Attendance = require('../models/Attendance');
+    
     
     try {
         const attendance = await Attendance.find({ session: req.params.id })
@@ -77,9 +77,10 @@ exports.getSessionAttendance = async (req, res) => {
                 path: 'student',
                 populate: { path: 'user', select: 'name email' }
             });
-            
+        console.log(attendance);
         res.json(attendance);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: error.message });
     }
 };
