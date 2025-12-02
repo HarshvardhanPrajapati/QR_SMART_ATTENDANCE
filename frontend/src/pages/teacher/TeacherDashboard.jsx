@@ -138,7 +138,7 @@ const TeacherDashboard = () => {
                         className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-blue-500/30 flex items-center gap-2 transition-all hover:scale-105"
                     >
                         <Plus size={20} />
-                        Launch New Class
+                        Launch New Session
                     </button>
                 </div>
 

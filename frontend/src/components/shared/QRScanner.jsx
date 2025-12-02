@@ -49,11 +49,11 @@ const QRScanner = ({ onScanSuccess, onScanError, onClose }) => {
                 <div className="p-4 flex justify-between items-center border-b border-slate-700 bg-slate-800 text-white">
                     <h3 className="font-semibold text-lg">Scan Class QR Code</h3>
                     <button onClick={onClose} className="hover:text-red-400 transition-colors">
-                        <XCircle />
+                        <XCircle/>
                     </button>
                 </div>
 
-                <div className="p-6 bg-slate-900">
+                <div className="p-6 bg-slate-400">
                     <div id="reader" className="overflow-hidden rounded-xl border-2 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)]"></div>
                     <p className="text-center text-slate-400 text-sm mt-4">
                         Align the QR code within the frame to mark attendance.
