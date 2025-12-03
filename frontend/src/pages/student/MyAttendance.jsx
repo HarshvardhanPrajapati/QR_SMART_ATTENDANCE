@@ -103,42 +103,42 @@ const MyAttendance = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 flex flex-col">
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
         <main className="flex-1 p-6">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">My Attendance</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent">My Attendance</h1>
+            <p className="text-slate-600 mt-1">
               View your attendance history and statistics
             </p>
           </div>
 
           {/* Filters */}
-          <div className="card mb-6">
+          <div className="glass-panel mb-6 border border-white/40 bg-white/70 backdrop-blur-md">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                <Filter size={20} className="mr-2" />
+              <h2 className="text-lg font-semibold text-slate-900 flex items-center">
+                <Filter size={20} className="mr-2 text-sky-500" />
                 Filters
               </h2>
-              <button onClick={exportToCSV} className="btn-secondary flex items-center space-x-2">
-                <Download size={18} />
-                <span>Export CSV</span>
+              <button onClick={exportToCSV} className="glass-panel px-4 py-2 rounded-xl font-medium flex items-center space-x-2 border border-white/40 bg-white/70 backdrop-blur-md hover:bg-white/80 transition-all">
+                <Download size={18} className="text-slate-600" />
+                <span className="text-slate-700">Export CSV</span>
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Course
                 </label>
                 <select
                   name="courseId"
                   value={filters.courseId}
                   onChange={handleFilterChange}
-                  className="input-field"
+                  className="w-full bg-white/60 border border-slate-200 text-slate-900 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-sky-400/40 focus:border-sky-400 outline-none transition-all placeholder-slate-500 backdrop-blur-sm"
                 >
                   <option value="">All Courses</option>
                   {courses.map((enrollment) => (
@@ -151,7 +151,7 @@ const MyAttendance = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Start Date
                 </label>
                 <input
@@ -159,12 +159,12 @@ const MyAttendance = () => {
                   name="startDate"
                   value={filters.startDate}
                   onChange={handleFilterChange}
-                  className="input-field"
+                  className="w-full bg-white/60 border border-slate-200 text-slate-900 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-sky-400/40 focus:border-sky-400 outline-none transition-all placeholder-slate-500 backdrop-blur-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   End Date
                 </label>
                 <input
@@ -172,15 +172,15 @@ const MyAttendance = () => {
                   name="endDate"
                   value={filters.endDate}
                   onChange={handleFilterChange}
-                  className="input-field"
+                  className="w-full bg-white/60 border border-slate-200 text-slate-900 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-sky-400/40 focus:border-sky-400 outline-none transition-all placeholder-slate-500 backdrop-blur-sm"
                 />
               </div>
 
               <div className="flex items-end space-x-2">
-                <button onClick={applyFilters} className="btn-primary flex-1">
+                <button onClick={applyFilters} className="flex-1 bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white font-semibold py-2.5 rounded-xl transition-all shadow-lg shadow-sky-500/25">
                   Apply
                 </button>
-                <button onClick={clearFilters} className="btn-secondary flex-1">
+                <button onClick={clearFilters} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl transition-all">
                   Clear
                 </button>
               </div>
@@ -188,55 +188,55 @@ const MyAttendance = () => {
           </div>
 
           {/* Attendance Table */}
-          <div className="card">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="glass-panel border border-white/40 bg-white/70 backdrop-blur-md">
+            <h2 className="text-lg font-semibold text-slate-900 mb-4">
               Attendance Records ({attendance.length})
             </h2>
 
             {attendance.length > 0 ? (
-              <div className="table-container">
-                <table className="table">
-                  <thead>
+              <div className="overflow-x-auto rounded-xl border border-slate-200/60 bg-white/40 backdrop-blur-sm">
+                <table className="w-full">
+                  <thead className="bg-slate-50/60 border-b border-slate-200/60">
                     <tr>
-                      <th>Date</th>
-                      <th>Course</th>
-                      <th>Status</th>
-                      <th>Marked At</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">Date</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">Course</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">Status</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">Marked At</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-slate-200/60">
                     {attendance.map((record) => (
-                      <tr key={record._id}>
-                        <td>
+                      <tr key={record._id} className="hover:bg-slate-50/40 transition-colors">
+                        <td className="px-4 py-3">
                           <div className="flex items-center space-x-2">
-                            <Calendar size={16} className="text-gray-400" />
-                            <span>{formatDate(record.session?.sessionDate)}</span>
+                            <Calendar size={16} className="text-slate-400" />
+                            <span className="text-slate-900">{formatDate(record.session?.sessionDate)}</span>
                           </div>
                         </td>
-                        <td>
+                        <td className="px-4 py-3">
                           <div>
-                            <p className="font-semibold">
+                            <p className="font-semibold text-slate-900">
                               {record.course?.courseCode}
                             </p>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-slate-600">
                               {record.course?.courseName}
                             </p>
                           </div>
                         </td>
-                        <td>
+                        <td className="px-4 py-3">
                           <span
-                            className={`badge ${
+                            className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
                               record.status === 'present'
-                                ? 'badge-success'
+                                ? 'bg-emerald-100 text-emerald-700'
                                 : record.status === 'late'
-                                ? 'badge-warning'
-                                : 'badge-danger'
+                                ? 'bg-amber-100 text-amber-700'
+                                : 'bg-red-100 text-red-700'
                             }`}
                           >
                             {record.status}
                           </span>
                         </td>
-                        <td className="text-gray-600">
+                        <td className="px-4 py-3 text-slate-600">
                           {formatDateTime(record.markedAt)}
                         </td>
                       </tr>
@@ -246,8 +246,8 @@ const MyAttendance = () => {
               </div>
             ) : (
               <div className="text-center py-12">
-                <Calendar size={64} className="mx-auto text-gray-400 mb-4" />
-                <p className="text-gray-600">No attendance records found</p>
+                <Calendar size={64} className="mx-auto text-slate-400 mb-4" />
+                <p className="text-slate-600">No attendance records found</p>
               </div>
             )}
           </div>

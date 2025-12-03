@@ -50,31 +50,31 @@ const CourseCard = ({ course }) => {
 
     if (isLoading) {
         return (
-            <div className="glass-panel p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 flex items-center justify-center h-64">
-                <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+            <div className="glass-panel p-6 rounded-xl border border-white/40 bg-white/70 backdrop-blur-md hover:shadow-lg transition-all hover:-translate-y-1">
+                <Loader2 className="h-8 w-8 animate-spin text-sky-500" />
             </div>
         );
     }
 
     return (
-        <div className="glass-panel p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 hover:shadow-lg transition-all hover:-translate-y-1">
+        <div className="glass-panel p-6 rounded-xl border border-white/40 bg-white/70 backdrop-blur-md hover:shadow-lg transition-all hover:-translate-y-1">
             <div className="flex justify-between items-start mb-4">
-                <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-                    <BookOpen className="text-blue-600 dark:text-blue-400" size={24} />
+                <div className="bg-sky-50 p-3 rounded-lg">
+                    <BookOpen className="text-sky-600" size={24} />
                 </div>
-                <span className="text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded">
+                <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">
                     {course.code}
                 </span>
             </div>
-            <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-1">{course.name}</h3>
-            <p className="text-sm text-slate-500 mb-4">{course.department} • Sem {course.semester}</p>
+            <h3 className="font-bold text-lg text-slate-900 mb-1">{course.name}</h3>
+            <p className="text-sm text-slate-600 mb-4">{course.department} • Sem {course.semester}</p>
             
             {activeSession && (
-                <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                <div className="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                            <span className="text-sm font-medium text-yellow-700 dark:text-yellow-300">
+                            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                            <span className="text-sm font-medium text-emerald-700">
                                 Active Session
                             </span>
                         </div>
@@ -91,7 +91,7 @@ const CourseCard = ({ course }) => {
                             End Session
                         </button>
                     </div>
-                    <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
+                    <p className="text-xs text-emerald-600 mt-1">
                         Started: {new Date(activeSession.createdAt).toLocaleTimeString()}
                     </p>
                 </div>
@@ -99,7 +99,7 @@ const CourseCard = ({ course }) => {
             
             <button 
                 onClick={() => navigate(`/teacher/courses/${course._id}`)}
-                className="w-full px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium transition-colors"
+                className="w-full px-3 py-2 bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white rounded-xl text-sm font-medium transition-all shadow-lg shadow-sky-500/25"
             >
                 View Reports
             </button>

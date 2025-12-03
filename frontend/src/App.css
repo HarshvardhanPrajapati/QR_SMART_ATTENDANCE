@@ -1,81 +1,86 @@
 .App {
   min-height: 100vh;
-  background-color: #f9fafb;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 50%, #fefce8 100%);
 }
 
 .container {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 2.5rem 1.5rem 3rem;
 }
 
 /* Dashboard grid */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  gap: 2rem;
+  margin-top: 2.5rem;
 }
 
-/* Table styles */
+/* Table styles with playful theme */
 .table-container {
   overflow-x: auto;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: transparent;
 }
 
 .table thead {
-  background-color: #f9fafb;
-  border-bottom: 2px solid #e5e7eb;
+  background: rgba(241, 245, 249, 0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
 }
 
 .table th {
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: #374151;
+  color: rgba(30, 41, 59, 0.7);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .table td {
-  padding: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid #E2E8F0;
   font-size: 0.875rem;
-  color: #4b5563;
+  color: #1E293B;
 }
 
 .table tbody tr:hover {
-  background-color: #f9fafb;
+  background-color: #F8FAFC;
 }
 
 /* Modal overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(15, 23, 42, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
-  padding: 1rem;
+  padding: 1.5rem;
 }
 
 .modal-content {
-  background: white;
-  border-radius: 0.5rem;
-  max-width: 500px;
+  background: #FFFFFF;
+  border-radius: 1.25rem;
+  max-width: 520px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 1.75rem 1.75rem 1.5rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
 }
 
 /* QR Code display */
@@ -84,57 +89,63 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2.25rem 2.5rem;
+  background: #FFFFFF;
+  border-radius: 1.5rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
 }
 
 .qr-code-image {
-  max-width: 400px;
+  max-width: 360px;
   width: 100%;
   height: auto;
-  margin: 1rem 0;
-  border: 4px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  background: white;
+  margin: 1.25rem 0 0.75rem;
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  background: #FFFFFF;
+  box-shadow: inset 0 0 0 1px #E2E8F0;
 }
 
 /* Stats card */
 .stat-card {
-  background: white;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  background: #FFFFFF;
+  border-radius: 1.25rem;
+  padding: 1.75rem 1.75rem 1.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  border: 1px solid #E2E8F0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  border-color: #2563EB;
 }
 
 .stat-card-icon {
   width: 3rem;
   height: 3rem;
-  border-radius: 0.5rem;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
+  background-color: rgba(241, 245, 249, 0.8);
+  color: #0ea5e9;
+  border: 1px solid #0ea5e9;
 }
 
 .stat-card-value {
   font-size: 2rem;
   font-weight: 700;
-  color: #111827;
+  letter-spacing: -0.03em;
+  color: #1E293B;
   margin-bottom: 0.25rem;
 }
 
 .stat-card-label {
-  font-size: 0.875rem;
-  color: #6b7280;
+  font-size: 0.9rem;
+  color: rgba(30, 41, 59, 0.6);
   font-weight: 500;
 }
 
@@ -143,13 +154,17 @@
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-  
-  .table-container {
-    font-size: 0.75rem;
+
+  .container {
+    padding-inline: 1.25rem;
   }
-  
+
+  .table-container {
+    font-size: 0.8rem;
+  }
+
   .table th,
   .table td {
-    padding: 0.5rem;
+    padding: 0.6rem 0.8rem;
   }
 }

@@ -273,13 +273,13 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Student Dashboard" />
 
             {/* Notification Toast */}
             {scanResult.message && (
-                <div className={`fixed bottom-10 right-4 md:right-10 z-50 px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-slide-up ${
-                    scanResult.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                <div className={`fixed bottom-10 right-4 md:right-10 z-50 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-slide-up backdrop-blur-md border border-white/40 ${
+                    scanResult.type === 'success' ? 'bg-emerald-500/90 text-white' : 'bg-red-500/90 text-white'
                 }`}>
                     {scanResult.type === 'success' ? <CheckCircle /> : <XCircle />}
                     <span className="font-semibold">{scanResult.message}</span>
@@ -294,16 +294,16 @@ const StudentDashboard = () => {
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden"
+                        className="bg-gradient-to-r from-sky-500 to-emerald-500 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden"
                     >
                         <div className="relative z-10">
                             <h1 className="text-3xl font-bold mb-2">Hello, {user?.name?.split(' ')[0]}!</h1>
-                            <p className="text-blue-100 mb-6 max-w-md">
+                            <p className="text-sky-100 mb-6 max-w-md">
                                 Ready for your next class? Scan the QR code projected by your teacher to mark your attendance instantly.
                             </p>
                             <button 
                                 onClick={() => setShowScanner(true)}
-                                className="bg-white text-blue-700 px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+                                className="bg-white text-sky-700 px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-sky-50 transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
                             >
                                 <Scan size={20} />
                                 Scan QR Code
@@ -318,7 +318,7 @@ const StudentDashboard = () => {
                 {/* Enrolled Courses */}
                 {enrolledCourses.length > 0 && (
                     <>
-                        <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                        <h2 className="text-xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent mb-4 flex items-center gap-2">
                             <BookOpen size={20} /> My Courses
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -328,44 +328,44 @@ const StudentDashboard = () => {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     onClick={() => navigate(`/student/courses/${item.course._id}/attendance`)}
-                                    className="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer hover:border-blue-500"
+                                    className="bg-white/70 backdrop-blur-md rounded-xl p-5 border border-white/40 hover:shadow-lg transition-all cursor-pointer hover:border-sky-400"
                                 >
                                     <div className="flex justify-between items-start mb-3">
-                                        <div className="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
-                                            <BookOpen className="text-blue-600 dark:text-blue-400" size={20} />
+                                        <div className="bg-sky-50 p-2 rounded-lg">
+                                            <BookOpen className="text-sky-600" size={20} />
                                         </div>
-                                        <span className="text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded">
+                                        <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">
                                             {item.course.code}
                                         </span>
                                     </div>
-                                    <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-1">
+                                    <h3 className="font-bold text-lg text-slate-900 mb-1">
                                         {item.course.name}
                                     </h3>
-                                    <p className="text-xs text-slate-500 mb-4">
+                                    <p className="text-xs text-slate-600 mb-4">
                                         {item.course.department} • Sem {item.course.semester}
                                     </p>
-                                    <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
+                                    <div className="pt-4 border-t border-slate-200">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-sm text-slate-500">Attendance</span>
+                                            <span className="text-sm text-slate-600">Attendance</span>
                                             <span className={`text-2xl font-bold ${
                                                 item.attendancePercentage >= 75 
-                                                    ? 'text-green-600' 
+                                                    ? 'text-emerald-600' 
                                                     : 'text-red-600'
                                             }`}>
                                                 {item.attendancePercentage}%
                                             </span>
                                         </div>
-                                        <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 mt-2">
+                                        <div className="w-full bg-slate-200 rounded-full h-2 mt-2">
                                             <div
                                                 className={`h-2 rounded-full ${
                                                     item.attendancePercentage >= 75 
-                                                        ? 'bg-green-600' 
+                                                        ? 'bg-emerald-600' 
                                                         : 'bg-red-600'
                                                 }`}
                                                 style={{ width: `${item.attendancePercentage}%` }}
                                             ></div>
                                         </div>
-                                        <p className="text-xs text-slate-400 mt-2">
+                                        <p className="text-xs text-slate-500 mt-2">
                                             {item.presentCount} present / {item.totalSessions} sessions
                                         </p>
                                     </div>
@@ -376,7 +376,7 @@ const StudentDashboard = () => {
                 )}
 
                 {/* Recent Activity */}
-                <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                <h2 className="text-xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent mb-4 flex items-center gap-2">
                     <Clock size={20} /> Recent Activity
                 </h2>
                 

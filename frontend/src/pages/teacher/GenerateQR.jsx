@@ -141,7 +141,7 @@ const GenerateQR = () => {
     }, [activeSession?.sessionId]);
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Live Session" />
 
             <div className="container mx-auto px-4 mt-8">
@@ -149,7 +149,7 @@ const GenerateQR = () => {
                     <div className="flex justify-between items-center mb-6">
                         <button 
                             onClick={() => navigate('/teacher/dashboard')}
-                            className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors"
+                            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors"
                         >
                             <ArrowLeft size={20} /> Back to Dashboard
                         </button>
@@ -177,7 +177,7 @@ const GenerateQR = () => {
                         </button>
                     </div>
                 ) : (
-                    <h1 className="text-2xl font-bold text-slate-800 dark:text-white mb-6">Classroom Mode</h1>
+                    <h1 className="text-2xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent mb-6">Classroom Mode</h1>
                 )}
 
                 {activeSession ? (
@@ -188,8 +188,8 @@ const GenerateQR = () => {
                         className="w-full max-w-6xl mx-auto"
                     >
                         <div className="mb-6">
-                            <div className="flex items-center gap-2 text-green-500 font-medium">
-                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            <div className="flex items-center gap-2 text-emerald-600 font-medium">
+                                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                                 Live Session Active
                             </div>
                         </div>
@@ -197,8 +197,8 @@ const GenerateQR = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             {/* Left: QR Code */}
                             <div className="lg:col-span-1">
-                                <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 sticky top-6">
-                                    <h3 className="text-lg font-semibold text-slate-800 dark:text-white mb-4">Scan QR Code</h3>
+                                <div className="glass-panel rounded-xl shadow-sm border border-white/40 bg-white/70 backdrop-blur-md p-6 sticky top-6">
+                                    <h3 className="text-lg font-semibold text-slate-900 mb-4">Scan QR Code</h3>
                                     <div className="flex justify-center">
                                         <QRCodeDisplay 
                                             qrData={activeSession.qrCode}
@@ -208,7 +208,7 @@ const GenerateQR = () => {
                                         />
                                     </div>
                                     <div className="mt-4 text-center">
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                                        <p className="text-sm text-slate-600">
                                             Students can scan this QR code to mark attendance
                                         </p>
                                     </div>
@@ -239,21 +239,21 @@ const GenerateQR = () => {
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="glass-panel w-full max-w-lg p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl"
+                        className="glass-panel w-full max-w-lg p-8 rounded-2xl border border-white/40 bg-white/70 backdrop-blur-md shadow-xl"
                     >
                         <div className="text-center mb-8">
-                            <div className="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/30">
+                            <div className="bg-gradient-to-br from-sky-500 to-emerald-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-sky-500/30">
                                 <Play className="text-white fill-white ml-1" size={32} />
                             </div>
-                            <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Start New Session</h2>
-                            <p className="text-slate-500">Generate a secure QR code for your class</p>
+                            <h2 className="text-2xl font-bold text-slate-900">Start New Session</h2>
+                            <p className="text-slate-600">Generate a secure QR code for your class</p>
                         </div>
 
                         <form onSubmit={handleCreateSession} className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Select Course</label>
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Select Course</label>
                                 <select 
-                                    className="input-field bg-slate-50 dark:bg-slate-800 dark:text-white"
+                                    className="w-full bg-white/60 border border-slate-200 text-slate-900 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-sky-400/40 focus:border-sky-400 outline-none transition-all placeholder-slate-500 backdrop-blur-sm"
                                     value={selectedCourse}
                                     onChange={(e) => setSelectedCourse(e.target.value)}
                                     required
@@ -267,7 +267,7 @@ const GenerateQR = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                <label className="block text-sm font-medium text-slate-700 mb-2">
                                     Session Validity (Minutes)
                                 </label>
                                 <div className="flex items-center gap-4">
@@ -278,16 +278,16 @@ const GenerateQR = () => {
                                         max="60" 
                                         value={duration}
                                         onChange={(e) => setDuration(e.target.value)}
-                                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-600"
                                     />
-                                    <span className="font-bold text-blue-600 min-w-[3rem]">{duration} m</span>
+                                    <span className="font-bold text-sky-600 min-w-[3rem]">{duration} m</span>
                                 </div>
                             </div>
 
                             <button 
                                 type="submit" 
                                 disabled={loading}
-                                className="w-full btn-primary py-3 text-lg flex items-center justify-center gap-2"
+                                className="w-full bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white font-semibold py-3 text-lg rounded-xl transition-all shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2"
                             >
                                 {loading ? 'Generating...' : 'Generate QR Code'}
                             </button>

@@ -58,16 +58,16 @@ const QRCodeDisplay = ({ qrData, expiresAt, courseName }) => {
             className={`relative flex items-center justify-center transition-all duration-300 ${
                 isFullscreen
                     ? 'fixed inset-0 z-50 bg-white'
-                    : 'p-6 bg-white rounded-2xl shadow-xl mx-auto border-4 border-slate-900 flex flex-col items-center max-w-sm'
+                    : 'p-6 glass-panel rounded-2xl shadow-xl mx-auto border border-white/40 bg-white/70 backdrop-blur-md flex flex-col items-center max-w-sm'
             }`}
         >
             {/* Non-fullscreen header (course name + expand icon) */}
             {!isFullscreen && (
-                <div className="w-full flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
-                    <h3 className="font-bold text-lg text-slate-800 dark:text-white">{courseName}</h3>
+                <div className="w-full flex justify-between items-center mb-4 border-b border-slate-200/60 pb-2">
+                    <h3 className="font-bold text-lg text-slate-900">{courseName}</h3>
                     <button 
                         onClick={toggleFullscreen} 
-                        className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700"
+                        className="text-slate-400 hover:text-sky-600 p-1 rounded-full hover:bg-slate-100 transition-colors"
                         aria-label="Maximize QR Code"
                     >
                         <Maximize2 size={20} />
@@ -79,19 +79,19 @@ const QRCodeDisplay = ({ qrData, expiresAt, courseName }) => {
             {isFullscreen && (
                 <button
                     onClick={toggleFullscreen}
-                    className="absolute top-4 right-4 p-2 rounded-full bg-black/60 hover:bg-black text-white transition-colors"
+                    className="absolute top-4 right-4 p-2 rounded-full bg-slate-900/60 hover:bg-slate-800 text-white transition-all shadow-lg"
                     aria-label="Minimize QR Code"
                 >
                     <Minimize2 size={20} />
                 </button>
             )}
 
-            <div className={`${isFullscreen ? '' : 'p-4 bg-white rounded-xl shadow-inner border border-gray-200 dark:border-slate-700 dark:bg-slate-800'}`}>
+            <div className={`${isFullscreen ? '' : 'p-4 bg-white/60 rounded-xl shadow-inner border border-slate-200/60 backdrop-blur-sm'}`}>
                 {/* The QR Data is encrypted string from backend */}
                 <QRCode 
                     value={isExpired ? "EXPIRED_SESSION" : JSON.stringify(qrData)} 
                     size={isFullscreen ? 420 : 200}
-                    fgColor={isExpired ? "#94a3b8" : "#000000"}
+                    fgColor={isExpired ? "#94a3b8" : "#0f172a"}
                     bgColor="#ffffff"
                 />
             </div>
@@ -100,13 +100,13 @@ const QRCodeDisplay = ({ qrData, expiresAt, courseName }) => {
                 <>
                     {/* Countdown Timer */}
                     <div className="mt-4 flex items-center justify-center gap-2">
-                        <Clock className={`w-4 h-4 ${isExpired ? 'text-red-500' : 'text-green-500'}`} />
-                        <span className={`text-sm font-medium ${isExpired ? 'text-red-600' : 'text-green-600'}`}>
+                        <Clock className={`w-4 h-4 ${isExpired ? 'text-red-500' : 'text-emerald-500'}`} />
+                        <span className={`text-sm font-medium ${isExpired ? 'text-red-600' : 'text-emerald-600'}`}>
                             {isExpired ? 'Session Expired' : timeLeft}
                         </span>
                     </div>
 
-                    <p className="mt-4 text-center text-sm text-gray-500">
+                    <p className="mt-4 text-center text-sm text-slate-600">
                         {isExpired 
                             ? "This session has ended. Please generate a new code." 
                             : "Scan with student app to mark attendance"}

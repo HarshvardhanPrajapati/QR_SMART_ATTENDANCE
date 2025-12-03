@@ -211,19 +211,19 @@ const ViewAttendance = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Attendance Report" />
 
             <div className="container mx-auto px-4 mt-8">
                 <button 
                     onClick={() => navigate('/teacher/dashboard')}
-                    className="flex items-center gap-2 text-slate-500 hover:text-slate-800 mb-6 transition-colors"
+                    className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6 transition-colors"
                 >
                     <ArrowLeft size={20} /> Back to Dashboard
                 </button>
 
                 {error && (
-                    <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+                    <div className="mb-4 rounded-xl border border-red-200/80 bg-red-50/80 px-4 py-2 text-sm text-red-700 backdrop-blur-sm">
                         {error}
                     </div>
                 )}
@@ -232,14 +232,14 @@ const ViewAttendance = () => {
                     
                     {/* Left: Session List using Component */}
                     <div className="md:col-span-1 space-y-4">
-                        <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200">
-                            <h2 className="font-bold text-lg mb-4 text-slate-800 dark:text-white">
+                        <div className="glass-panel p-6 rounded-xl shadow-sm border border-white/40 bg-white/70 backdrop-blur-md">
+                            <h2 className="font-bold text-lg mb-4 text-slate-900">
                                 {courseInfo?.name || 'Course'} History
                             </h2>
                             {loading ? (
-                                <p className="text-sm text-slate-500">Loading sessions...</p>
+                                <p className="text-sm text-slate-600">Loading sessions...</p>
                             ) : sessions.length === 0 ? (
-                                <p className="text-sm text-slate-500">
+                                <p className="text-sm text-slate-600">
                                     No sessions found yet for this course.
                                 </p>
                             ) : (

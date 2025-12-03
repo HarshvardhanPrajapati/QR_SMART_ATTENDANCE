@@ -168,7 +168,7 @@ const TeacherDashboard = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Teacher Portal" />
 
             <div className="container mx-auto px-4 mt-8">
@@ -176,12 +176,12 @@ const TeacherDashboard = () => {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Dashboard</h1>
-                        <p className="text-slate-500">Manage your classes and attendance</p>
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent">Dashboard</h1>
+                        <p className="text-slate-600">Manage your classes and attendance</p>
                     </div>
                     <button 
                         onClick={() => navigate('/teacher/generate-qr')}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-blue-500/30 flex items-center gap-2 transition-all hover:scale-105"
+                        className="bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-sky-500/30 flex items-center gap-2 transition-all hover:scale-105"
                     >
                         <Plus size={20} />
                         Launch New Class
@@ -190,21 +190,21 @@ const TeacherDashboard = () => {
 
                 {/* Stats Grid using Shared Component */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <StatCard icon={BookOpen} label="Total Courses" value={courses.length} color="bg-purple-500" />
+                    <StatCard icon={BookOpen} label="Total Courses" value={courses.length} color="bg-sky-500" />
                     <StatCard icon={Users} label="Total Students" value={totalStudents} color="bg-emerald-500" />
-                    <StatCard icon={Calendar} label="Total Sessions" value={totalSessions} color="bg-orange-500" />
+                    <StatCard icon={Calendar} label="Total Sessions" value={totalSessions} color="bg-lime-500" />
                 </div>
 
                 {/* Courses List using Component */}
-                <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4">Your Courses</h2>
+                <h2 className="text-xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent mb-4">Your Courses</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {courses.map(course => (
                         <CourseCard key={course._id} course={course} />
                     ))}
                     
                     {courses.length === 0 && (
-                        <div className="col-span-full text-center py-10 bg-white/50 border border-dashed border-slate-300 rounded-xl">
-                            <p className="text-slate-500">No courses assigned yet. Contact Admin.</p>
+                        <div className="col-span-full text-center py-10 glass-panel border border-white/40 bg-white/70 backdrop-blur-md rounded-xl">
+                            <p className="text-slate-600">No courses assigned yet. Contact Admin.</p>
                         </div>
                     )}
                 </div>

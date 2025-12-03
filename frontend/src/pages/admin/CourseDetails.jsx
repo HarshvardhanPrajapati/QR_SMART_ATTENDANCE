@@ -158,7 +158,7 @@ const CourseDetails = () => {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Course Details" />
 
             <div className="container mx-auto px-4 mt-8">
@@ -170,21 +170,21 @@ const CourseDetails = () => {
                 </button>
 
                 {/* Course Info Card */}
-                <div className="bg-white dark:bg-slate-900 rounded-xl p-6 mb-6 border border-slate-200 dark:border-slate-800">
+                <div className="glass-panel rounded-xl p-6 mb-6 border border-white/40 bg-white/70 backdrop-blur-md">
                     <div className="flex justify-between items-start">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
-                                <span className="text-xs font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded">
+                                <span className="text-xs font-bold bg-sky-100 text-sky-600 px-3 py-1 rounded">
                                     {course.code}
                                 </span>
-                                <span className="text-sm text-slate-500">
+                                <span className="text-sm text-slate-600">
                                     {course.department} • Sem {course.semester}
                                 </span>
                             </div>
-                            <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">
+                            <h1 className="text-3xl font-bold text-slate-900 mb-2">
                                 {course.name}
                             </h1>
-                            <div className="flex flex-wrap gap-4 text-sm text-slate-600 dark:text-slate-400">
+                            <div className="flex flex-wrap gap-4 text-sm text-slate-600">
                                 <span><strong>Credits:</strong> {course.credits}</span>
                                 {course.teacher && (
                                     <span className="flex items-center gap-2">
@@ -208,7 +208,7 @@ const CourseDetails = () => {
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setShowEnrollModal(true)}
-                                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                                className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white px-4 py-2 rounded-xl font-medium transition-all shadow-lg shadow-sky-500/25"
                             >
                                 <UserPlus size={20} />
                                 Register Student
@@ -225,17 +225,17 @@ const CourseDetails = () => {
                 </div>
 
                 {/* Enrolled Students List */}
-                <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
-                    <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4">
+                <div className="glass-panel rounded-xl p-6 border border-white/40 bg-white/70 backdrop-blur-md">
+                    <h2 className="text-xl font-bold text-slate-900 mb-4">
                         Enrolled Students ({enrollments.length})
                     </h2>
                     {enrollments.length === 0 ? (
-                        <div className="text-center py-12">
+                        <div className="text-center py-12 glass-panel border border-white/40 bg-white/70 backdrop-blur-md rounded-xl">
                             <User className="mx-auto text-slate-400 mb-4" size={48} />
-                            <p className="text-slate-500">No students enrolled yet</p>
+                            <p className="text-slate-600">No students enrolled yet</p>
                             <button
                                 onClick={() => setShowEnrollModal(true)}
-                                className="mt-4 text-blue-600 hover:text-blue-700 font-medium"
+                                className="mt-4 text-sky-600 hover:text-sky-700 font-medium"
                             >
                                 Register the first student
                             </button>
@@ -243,36 +243,36 @@ const CourseDetails = () => {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
-                                <thead className="bg-slate-50 dark:bg-slate-800">
+                                <thead className="bg-slate-50/60 border-b border-slate-200/60">
                                     <tr>
-                                        <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Roll Number</th>
-                                        <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Name</th>
-                                        <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Email</th>
-                                        <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Department</th>
-                                        <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Semester</th>
-                                        <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Enrolled Date</th>
-                                        <th className="p-4 text-sm font-semibold text-slate-600 dark:text-slate-300">Actions</th>
+                                        <th className="p-4 text-sm font-semibold text-slate-700">Roll Number</th>
+                                        <th className="p-4 text-sm font-semibold text-slate-700">Name</th>
+                                        <th className="p-4 text-sm font-semibold text-slate-700">Email</th>
+                                        <th className="p-4 text-sm font-semibold text-slate-700">Department</th>
+                                        <th className="p-4 text-sm font-semibold text-slate-700">Semester</th>
+                                        <th className="p-4 text-sm font-semibold text-slate-700">Enrolled Date</th>
+                                        <th className="p-4 text-sm font-semibold text-slate-700">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tbody className="divide-y divide-slate-200/60">
                                     {enrollments.map((enrollment) => (
-                                        <tr key={enrollment._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                                            <td className="p-4 font-medium text-slate-800 dark:text-white">
+                                        <tr key={enrollment._id} className="hover:bg-slate-50/40 transition-colors">
+                                            <td className="p-4 font-medium text-slate-900">
                                                 {enrollment.student?.rollNumber}
                                             </td>
-                                            <td className="p-4 text-slate-700 dark:text-slate-300">
+                                            <td className="p-4 text-slate-700">
                                                 {enrollment.student?.user?.name}
                                             </td>
-                                            <td className="p-4 text-slate-600 dark:text-slate-400">
+                                            <td className="p-4 text-slate-600">
                                                 {enrollment.student?.user?.email}
                                             </td>
-                                            <td className="p-4 text-slate-600 dark:text-slate-400">
+                                            <td className="p-4 text-slate-600">
                                                 {enrollment.student?.department}
                                             </td>
-                                            <td className="p-4 text-slate-600 dark:text-slate-400">
+                                            <td className="p-4 text-slate-600">
                                                 {enrollment.student?.semester}
                                             </td>
-                                            <td className="p-4 text-slate-600 dark:text-slate-400">
+                                            <td className="p-4 text-slate-600">
                                                 {new Date(enrollment.enrollmentDate).toLocaleDateString()}
                                             </td>
                                             <td className="p-4">
@@ -281,7 +281,7 @@ const CourseDetails = () => {
                                                         e.stopPropagation();
                                                         handleUnenrollStudent(enrollment._id);
                                                     }}
-                                                    className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded transition-colors"
+                                                    className="text-red-500 hover:bg-red-50 p-2 rounded transition-colors"
                                                     title="Remove from this course"
                                                 >
                                                     <Trash2 size={16} />
@@ -299,10 +299,10 @@ const CourseDetails = () => {
             {/* Enroll Student Modal */}
             {showEnrollModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-                    <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
-                        <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+                    <div className="glass-panel w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-white/40 bg-white/70 backdrop-blur-md">
+                        <div className="p-6 border-b border-slate-200/60">
                             <div className="flex justify-between items-center">
-                                <h3 className="text-xl font-bold text-slate-800 dark:text-white">
+                                <h3 className="text-xl font-bold text-slate-900">
                                     Register Student
                                 </h3>
                                 <button
@@ -316,7 +316,7 @@ const CourseDetails = () => {
 
                         <div className="p-6 space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                <label className="block text-sm font-medium text-slate-700 mb-2">
                                     Student Roll Number
                                 </label>
                                 <div className="flex gap-2">
@@ -339,7 +339,7 @@ const CourseDetails = () => {
                                     <button
                                         onClick={handleSearchStudent}
                                         disabled={searchingStudent || !studentRollNumber.trim()}
-                                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                        className="px-4 py-2 bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-sky-500/25"
                                     >
                                         {searchingStudent ? 'Searching...' : 'Search'}
                                     </button>
@@ -382,7 +382,7 @@ const CourseDetails = () => {
                                 <button
                                     onClick={handleEnrollStudent}
                                     disabled={!studentDetails || enrolling}
-                                    className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="flex-1 px-4 py-2 bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-sky-500/25"
                                 >
                                     {enrolling ? 'Adding...' : 'Add Student'}
                                 </button>

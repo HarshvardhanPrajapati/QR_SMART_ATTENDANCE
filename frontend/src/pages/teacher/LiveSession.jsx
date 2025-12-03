@@ -95,21 +95,21 @@ const LiveSession = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Live Session" />
 
             <div className="container mx-auto px-4 mt-8">
                 <div className="flex justify-between items-center mb-6">
                     <button 
                         onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors"
+                        className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors"
                     >
                         <ArrowLeft size={20} /> Back
                     </button>
                     <button
                         onClick={handleTerminateSession}
                         disabled={isTerminating}
-                        className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50"
+                        className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all shadow-lg shadow-red-500/25 disabled:opacity-50"
                     >
                         {isTerminating ? (
                             <>
@@ -126,13 +126,13 @@ const LiveSession = () => {
                 </div>
 
                 {error && (
-                    <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+                    <div className="mb-4 rounded-xl border border-red-200/80 bg-red-50/80 px-4 py-2 text-sm text-red-700 backdrop-blur-sm">
                         {error}
                     </div>
                 )}
 
                 {loading || !sessionInfo ? (
-                    <p className="text-slate-500">Loading session...</p>
+                    <p className="text-slate-600">Loading session...</p>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Left: QR Display */}

@@ -5,13 +5,13 @@ const SessionCard = ({ session, isSelected, onClick }) => {
     return (
         <button
             onClick={onClick}
-            className={`w-full text-left p-4 rounded-lg flex items-center gap-3 transition-all border ${
+            className={`w-full text-left p-4 rounded-xl flex items-center gap-3 transition-all border ${
                 isSelected
-                ? 'bg-blue-600 text-white shadow-md border-blue-600'
-                : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200'
+                ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25 border-sky-500'
+                : 'glass-panel bg-white/70 hover:bg-white/80 text-slate-700 border-white/40'
             }`}
         >
-            <div className={`p-2 rounded ${isSelected ? 'bg-blue-500' : 'bg-slate-100'}`}>
+            <div className={`p-2 rounded-lg ${isSelected ? 'bg-sky-600' : 'bg-slate-100'}`}>
                 <Calendar size={18} />
             </div>
             <div>

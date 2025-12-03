@@ -172,11 +172,11 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Administrator Portal" />
 
             <div className="container mx-auto px-4 mt-8">
-                <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-6">System Overview</h1>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent mb-6">System Overview</h1>
 
                 {/* Statistics Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -184,45 +184,45 @@ const AdminDashboard = () => {
                         icon={Users} 
                         label="Total Students" 
                         value={stats.students} 
-                        color="bg-blue-500" 
+                        color="bg-sky-500" 
                         onClick={() => navigate('/admin/users?type=students')}
                     />
                     <StatCard 
                         icon={Users} 
                         label="Total Teachers" 
                         value={stats.teachers} 
-                        color="bg-indigo-500" 
+                        color="bg-emerald-500" 
                         onClick={() => navigate('/admin/users?type=teachers')}
                     />
                     <StatCard 
                         icon={BookOpen} 
                         label="Active Courses" 
                         value={stats.courses} 
-                        color="bg-purple-500" 
+                        color="bg-lime-500" 
                         onClick={() => navigate('/admin/courses')}
                     />
                 </div>
 
                 {/* Quick Actions */}
-                <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-4">Quick Management</h2>
+                <h2 className="text-xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent mb-4">Quick Management</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <ActionCard 
                         title="Register New User" 
                         desc="Create accounts for Students or Teachers." 
                         onClick={() => setActiveModal('user')}
-                        color="from-blue-600 to-blue-400"
+                        color="from-sky-500 to-emerald-500"
                     />
                     <ActionCard 
                         title="Create New Course" 
                         desc="Set up a course and assign a teacher." 
                         onClick={() => setActiveModal('course')}
-                        color="from-purple-600 to-purple-400"
+                        color="from-emerald-500 to-lime-500"
                     />
                     <ActionCard 
                         title="Active Courses" 
                         desc="View all courses and manage student enrollments." 
                         onClick={() => navigate('/admin/courses')}
-                        color="from-emerald-600 to-emerald-400"
+                        color="from-lime-500 to-sky-500"
                         icon={List}
                     />
                 </div>

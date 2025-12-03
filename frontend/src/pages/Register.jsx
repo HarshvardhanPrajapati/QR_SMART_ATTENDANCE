@@ -69,30 +69,31 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen relative bg-[#0f172a] py-10 px-4 flex items-center justify-center">
-             {/* Background Blobs */}
+        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 py-10 px-4 flex items-center justify-center">
+            {/* Playful background blobs */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[10%] right-[10%] w-80 h-80 bg-pink-500/20 rounded-full blur-3xl" />
-                <div className="absolute bottom-[10%] left-[10%] w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl" />
+                <div className="absolute top-[10%] right-[10%] w-80 h-80 bg-gradient-to-br from-sky-300/30 to-emerald-300/30 rounded-full blur-3xl" />
+                <div className="absolute bottom-[10%] left-[10%] w-80 h-80 bg-gradient-to-br from-lime-300/30 to-teal-300/30 rounded-full blur-3xl" />
+                <div className="absolute top-[45%] left-[5%] w-72 h-72 bg-gradient-to-br from-cyan-200/25 to-sky-200/25 rounded-full blur-2xl" />
             </div>
 
             <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass-panel w-full max-w-2xl p-8 rounded-2xl relative z-10 border border-white/10 bg-white/5"
+                className="glass-panel w-full max-w-2xl p-8 rounded-2xl relative z-10 border border-white/40 bg-white/70 backdrop-blur-md"
             >
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
-                    <p className="text-gray-400">Join the Smart Attendance System</p>
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent mb-2">Create Account</h1>
+                    <p className="text-slate-600">Join the Smart Attendance System</p>
                 </div>
 
                 {/* Role Toggle */}
-                <div className="flex bg-white/5 p-1 rounded-lg mb-8 max-w-xs mx-auto border border-white/10">
+                <div className="flex bg-white/60 p-1 rounded-xl mb-8 max-w-xs mx-auto border border-slate-200 backdrop-blur-sm">
                     <button
                         type="button"
                         onClick={() => setRole('student')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md transition-all text-sm font-medium ${
-                            role === 'student' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-all text-sm font-medium ${
+                            role === 'student' ? 'bg-gradient-to-r from-sky-500 to-emerald-500 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'
                         }`}
                     >
                         <GraduationCap size={18} /> Student
@@ -100,8 +101,8 @@ const Register = () => {
                     <button
                         type="button"
                         onClick={() => setRole('teacher')}
-                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md transition-all text-sm font-medium ${
-                            role === 'teacher' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'
+                        className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg transition-all text-sm font-medium ${
+                            role === 'teacher' ? 'bg-gradient-to-r from-sky-500 to-emerald-500 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'
                         }`}
                     >
                         <Briefcase size={18} /> Teacher
@@ -109,7 +110,7 @@ const Register = () => {
                 </div>
 
                 {error && (
-                    <div className="bg-red-500/10 border border-red-500/50 text-red-200 p-3 rounded-lg mb-6 text-sm text-center">
+                    <div className="bg-red-50/80 border border-red-200/80 text-red-700 p-3 rounded-xl mb-6 text-sm text-center backdrop-blur-sm">
                         {error}
                     </div>
                 )}
@@ -122,7 +123,7 @@ const Register = () => {
                         <InputGroup icon={Lock} type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
                     </div>
 
-                    <div className="col-span-1 md:col-span-2 border-t border-white/10 my-2"></div>
+                    <div className="col-span-1 md:col-span-2 border-t border-slate-200 my-2"></div>
 
                     {/* Dynamic Fields */}
                     {role === 'student' ? (
@@ -143,16 +144,16 @@ const Register = () => {
                         <button 
                             type="submit" 
                             disabled={loading}
-                            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg shadow-blue-500/25"
+                            className="w-full bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white font-semibold py-3 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg shadow-sky-500/25"
                         >
                             {loading ? 'Creating Account...' : 'Register Now'}
                         </button>
                     </div>
                 </form>
 
-                <div className="mt-6 text-center text-sm text-gray-400">
+                <div className="mt-6 text-center text-sm text-slate-600">
                     Already have an account?{' '}
-                    <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium hover:underline">
+                    <Link to="/login" className="text-sky-600 hover:text-sky-700 font-medium hover:underline">
                         Sign in
                     </Link>
                 </div>
@@ -164,7 +165,7 @@ const Register = () => {
 // Helper Component for Inputs to keep code clean
 const InputGroup = ({ icon: Icon, type, name, placeholder, value, onChange }) => (
     <div className="relative">
-        <Icon className="absolute left-3 top-3 text-gray-500" size={18} />
+        <Icon className="absolute left-3 top-3 text-slate-400" size={18} />
         <input 
             type={type}
             name={name}
@@ -172,7 +173,7 @@ const InputGroup = ({ icon: Icon, type, name, placeholder, value, onChange }) =>
             required
             value={value}
             onChange={onChange}
-            className="w-full bg-white/5 border border-gray-600 text-white pl-10 pr-4 py-2.5 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder-gray-500 text-sm"
+            className="w-full bg-white/60 border border-slate-200 text-slate-900 pl-10 pr-4 py-2.5 rounded-xl focus:ring-2 focus:ring-sky-400/40 focus:border-sky-400 outline-none transition-all placeholder-slate-500 backdrop-blur-sm text-sm"
         />
     </div>
 );

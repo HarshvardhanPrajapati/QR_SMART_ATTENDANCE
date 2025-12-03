@@ -43,20 +43,23 @@ const QRScanner = ({ onScanSuccess, onScanError, onClose }) => {
     }, []);
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-slate-700 relative">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div className="glass-panel w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-white/40 bg-white/70 backdrop-blur-md relative">
                 
-                <div className="p-4 flex justify-between items-center border-b border-slate-700 bg-slate-800 text-white">
+                <div className="p-4 flex justify-between items-center border-b border-slate-200/60 bg-gradient-to-r from-sky-500 to-emerald-500 text-white">
                     <h3 className="font-semibold text-lg">Scan Class QR Code</h3>
-                    <button onClick={onClose} className="hover:text-red-400 transition-colors">
+                    <button onClick={onClose} className="hover:text-white/80 transition-colors">
                         <XCircle />
                     </button>
                 </div>
 
-                <div className="p-6 bg-slate-900">
-                    <div id="reader" className="overflow-hidden rounded-xl border-2 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)]"></div>
-                    <p className="text-center text-slate-400 text-sm mt-4">
+                <div className="p-6 bg-white/50">
+                    <div id="reader" className="overflow-hidden rounded-xl border-2 border-sky-500 shadow-[0_0_20px_rgba(14,165,233,0.3)]"></div>
+                    <p className="text-center text-slate-700 text-sm mt-4 font-medium">
                         Align the QR code within the frame to mark attendance.
+                    </p>
+                    <p className="text-center text-slate-600 text-xs mt-2">
+                        Please allow camera access when prompted to scan QR codes.
                     </p>
                 </div>
 

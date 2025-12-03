@@ -115,8 +115,11 @@ const Sidebar = () => {
   const menuItems = getMenuItems();
 
   return (
-    <aside className="w-64 bg-white shadow-lg h-screen sticky top-16 overflow-y-auto">
-      <nav className="p-4 space-y-2">
+    <aside className="glass-panel fixed left-4 top-24 bottom-4 w-64 rounded-2xl p-6 flex flex-col">
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold text-slate-900">Navigation</h2>
+      </div>
+      <nav className="flex-1 space-y-1">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
@@ -125,13 +128,13 @@ const Sidebar = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                 isActive
-                  ? 'bg-primary-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-gradient-to-r from-sky-500 to-emerald-500 text-white shadow-lg shadow-sky-500/25'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
-              <Icon size={20} />
+              <Icon size={20} className={isActive ? 'text-white' : 'text-slate-400'} />
               <span className="font-medium">{item.label}</span>
             </Link>
           );

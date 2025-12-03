@@ -34,18 +34,18 @@ const ManageCourses = () => {
     );
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-10">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-emerald-50 to-lime-50 pb-10">
             <Navbar title="Active Courses" />
 
             <div className="container mx-auto px-4 mt-8">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Active Courses</h1>
-                        <p className="text-slate-500 mt-1">Manage courses and student enrollments</p>
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-600 to-emerald-600 bg-clip-text text-transparent">Active Courses</h1>
+                        <p className="text-slate-600 mt-1">Manage courses and student enrollments</p>
                     </div>
                     <button
                         onClick={() => navigate('/admin/dashboard')}
-                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-800 bg-white border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-800 transition-colors"
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 bg-white/60 border border-slate-200 hover:bg-white/80 transition-all backdrop-blur-sm"
                     >
                         <ArrowLeft size={18} />
                         Back to Dashboard
@@ -59,7 +59,7 @@ const ManageCourses = () => {
                         <input
                             type="text"
                             placeholder="Search by course name, code, or department..."
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white/60 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400/40 focus:border-sky-400 transition-all placeholder-slate-500 backdrop-blur-sm"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -69,12 +69,12 @@ const ManageCourses = () => {
                 {/* Courses Grid */}
                 {loading ? (
                     <div className="text-center py-12">
-                        <p className="text-slate-500">Loading courses...</p>
+                        <p className="text-slate-600">Loading courses...</p>
                     </div>
                 ) : filteredCourses.length === 0 ? (
-                    <div className="text-center py-12 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-300">
+                    <div className="text-center py-12 glass-panel border border-white/40 bg-white/70 backdrop-blur-md rounded-xl">
                         <BookOpen className="mx-auto text-slate-400 mb-4" size={48} />
-                        <p className="text-slate-500">
+                        <p className="text-slate-600">
                             {searchTerm ? 'No courses found matching your search' : 'No courses found. Create a course to get started.'}
                         </p>
                     </div>
@@ -84,20 +84,20 @@ const ManageCourses = () => {
                             <div
                                 key={course._id}
                                 onClick={() => navigate(`/admin/courses/${course._id}`)}
-                                className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer hover:border-blue-500"
+                                className="glass-panel rounded-xl p-6 border border-white/40 bg-white/70 backdrop-blur-md hover:shadow-lg transition-all cursor-pointer hover:border-sky-500"
                             >
                                 <div className="flex justify-between items-start mb-4">
-                                    <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-                                        <BookOpen className="text-blue-600 dark:text-blue-400" size={24} />
+                                    <div className="bg-sky-50 p-3 rounded-lg">
+                                        <BookOpen className="text-sky-600" size={24} />
                                     </div>
-                                    <span className="text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded">
+                                    <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">
                                         {course.code}
                                     </span>
                                 </div>
-                                <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-2">
+                                <h3 className="font-bold text-lg text-slate-900 mb-2">
                                     {course.name}
                                 </h3>
-                                <p className="text-sm text-slate-500 mb-4">
+                                <p className="text-sm text-slate-600 mb-4">
                                     {course.department} • Sem {course.semester} • {course.credits} Credits
                                 </p>
                                 {course.teacher && (
@@ -105,9 +105,9 @@ const ManageCourses = () => {
                                         Teacher: {course.teacher.name}
                                     </p>
                                 )}
-                                <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
-                                    <span className="text-sm text-slate-500">View Details</span>
-                                    <ArrowRight className="text-blue-600" size={20} />
+                                <div className="flex items-center justify-between pt-4 border-t border-slate-200/60">
+                                    <span className="text-sm text-slate-600">View Details</span>
+                                    <ArrowRight className="text-sky-600" size={20} />
                                 </div>
                             </div>
                         ))}

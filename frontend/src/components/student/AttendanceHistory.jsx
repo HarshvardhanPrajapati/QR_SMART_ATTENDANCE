@@ -6,8 +6,8 @@ const AttendanceHistory = ({ history, loading }) => {
     
     if (!history || history.length === 0) {
         return (
-            <div className="text-center py-10 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-300">
-                <p className="text-slate-500">No attendance records found yet.</p>
+            <div className="text-center py-10 glass-panel border border-white/40 bg-white/70 backdrop-blur-md rounded-xl">
+                <p className="text-slate-600">No attendance records found yet.</p>
             </div>
         );
     }

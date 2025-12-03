@@ -144,14 +144,14 @@ const AttendanceList = ({ sessionData, attendanceData = [], showLiveButton = tru
     };
 
     if (!sessionData) {
-        return <div className="text-gray-500">Select a session to view details.</div>;
+        return <div className="text-slate-600">Select a session to view details.</div>;
     }
 
     if (loading) {
         return (
             <div className="flex items-center justify-center p-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                <span className="ml-2 text-gray-600">Loading attendance data...</span>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-500"></div>
+                <span className="ml-2 text-slate-600">Loading attendance data...</span>
             </div>
         );
     }
@@ -164,17 +164,17 @@ const AttendanceList = ({ sessionData, attendanceData = [], showLiveButton = tru
     const absentCount = students.length - presentCount;
 
     return (
-        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+        <div className="glass-panel rounded-xl shadow-sm border border-white/40 bg-white/70 backdrop-blur-md p-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
-                    <h3 className="text-xl font-bold text-slate-800 dark:text-white">
+                    <h3 className="text-xl font-bold text-slate-900">
                         Session: {new Date(sessionData.createdAt).toLocaleDateString()}
                     </h3>
                     <div className="flex flex-wrap gap-2 sm:gap-4 text-sm mt-2">
-                        <span className="text-slate-500">
+                        <span className="text-slate-600">
                             {new Date(sessionData.createdAt).toLocaleTimeString()}
                         </span>
-                        <span className="flex items-center text-green-600">
+                        <span className="flex items-center text-emerald-600">
                             <UserCheck size={16} className="mr-1" />
                             {presentCount} Present
                         </span>
@@ -182,7 +182,7 @@ const AttendanceList = ({ sessionData, attendanceData = [], showLiveButton = tru
                             <UserX size={16} className="mr-1" />
                             {absentCount} Absent
                         </span>
-                        <span className="flex items-center text-slate-500">
+                        <span className="flex items-center text-slate-600">
                             <User size={16} className="mr-1" />
                             {students.length} Total
                         </span>
@@ -192,14 +192,14 @@ const AttendanceList = ({ sessionData, attendanceData = [], showLiveButton = tru
                     {showLiveButton && (
                         <button 
                             onClick={() => navigate(`/teacher/sessions/${sessionData._id}/live`)}
-                            className="flex-1 sm:flex-none flex items-center justify-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-4 py-2 rounded-lg transition-colors"
+                            className="flex-1 sm:flex-none flex items-center justify-center gap-2 text-sm font-medium text-sky-600 hover:text-sky-700 bg-sky-50 hover:bg-sky-100 px-4 py-2 rounded-xl transition-all"
                         >
                             Open Live View
                         </button>
                     )}
                     <button 
                         onClick={exportToCSV}
-                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors"
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-4 py-2 rounded-xl transition-all"
                     >
                         <Download size={16} /> Export CSV
                     </button>
@@ -209,31 +209,31 @@ const AttendanceList = ({ sessionData, attendanceData = [], showLiveButton = tru
             <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                     <thead>
-                        <tr className="border-b border-slate-200 dark:border-slate-700 text-slate-500 text-sm">
+                        <tr className="border-b border-slate-200/60 text-slate-600 text-sm">
                             <th className="py-3 px-2">Student Name</th>
                             <th className="py-3 px-2">Roll No</th>
                             <th className="py-3 px-2">Time</th>
                             <th className="py-3 px-2">Status</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tbody className="divide-y divide-slate-200/60">
                         {students.length > 0 ? (
                             students.map((student) => (
                                 <tr 
                                     key={student._id} 
                                     className={`transition-colors ${
                                         student.status === 'present' 
-                                            ? 'bg-green-50/30 dark:bg-green-900/10' 
-                                            : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                                            ? 'bg-emerald-50/40' 
+                                            : 'hover:bg-slate-50/40'
                                     }`}
                                 >
-                                    <td className="py-3 px-2 font-medium text-slate-800 dark:text-slate-200">
+                                    <td className="py-3 px-2 font-medium text-slate-900">
                                         {student.user?.name || 'N/A'}
                                     </td>
-                                    <td className="py-3 px-2 text-slate-500">
+                                    <td className="py-3 px-2 text-slate-600">
                                         {student.rollNumber || '—'}
                                     </td>
-                                    <td className="py-3 px-2 text-slate-500 text-sm font-mono">
+                                    <td className="py-3 px-2 text-slate-600 text-sm font-mono">
                                         {student.attendanceTime 
                                             ? new Date(student.attendanceTime).toLocaleTimeString() 
                                             : '—'
@@ -241,11 +241,11 @@ const AttendanceList = ({ sessionData, attendanceData = [], showLiveButton = tru
                                     </td>
                                     <td className="py-3 px-2">
                                         {student.status === 'present' ? (
-                                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-600 bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
+                                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">
                                                 <CheckCircle size={12} /> Present
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded-full">
+                                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 bg-red-100 px-2 py-1 rounded-full">
                                                 <XCircle size={12} /> Absent
                                             </span>
                                         )}
