@@ -2,34 +2,26 @@ import React, { useState, useEffect, useRef } from 'react';
 import QRCode from "react-qr-code";
 import { Clock, X, Maximize2, Minimize2 } from 'lucide-react';
 
-const QRCodeDisplay = ({ qrData, expiresAt, courseName }) => {
-    const [timeLeft, setTimeLeft] = useState('');
-    const [isExpired, setIsExpired] = useState(false);
-    const [isFullscreen, setIsFullscreen] = useState(false);
-    const qrContainerRef = useRef(null);
+const QRCodeDisplay = ({ qrData, expiresAt, courseName, onFullScreen }) => {
+  const [timeLeft, setTimeLeft] = useState('');
+  const [isExpired, setIsExpired] = useState(false);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const now = new Date().getTime();
-            const expiry = new Date(expiresAt).getTime();
-            const distance = expiry - now;
+  useEffect(() => {
+    // Ensure expiresAt is a millisecond timestamp
+    const expiryMs = (typeof expiresAt === 'number')
+      ? expiresAt
+      : new Date(expiresAt).getTime();
 
-            // Allow a small drift window before treating as expired
-            // so that very short sessions (1–2 minutes) don't instantly
-            // flip to EXPIRED due to minor clock differences.
-            if (distance < -2000) {
-                clearInterval(interval);
-                setTimeLeft("EXPIRED");
-                setIsExpired(true);
-            } else {
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                setTimeLeft(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
-            }
-        }, 1000);
+    if (!expiryMs || Number.isNaN(expiryMs)) {
+      setTimeLeft('INVALID');
+      setIsExpired(true);
+      return;
+    }
 
-        return () => clearInterval(interval);
-    }, [expiresAt]);
+    // update function - compute remaining in seconds (integer)
+    const update = () => {
+      const now = Date.now();
+      let remainingSec = Math.floor((expiryMs - now) / 1000);
 
     const toggleFullscreen = () => {
         if (!document.fullscreenElement) {

@@ -184,7 +184,7 @@ const TeacherDashboard = () => {
                         className="bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-sky-500/30 flex items-center gap-2 transition-all hover:scale-105"
                     >
                         <Plus size={20} />
-                        Launch New Class
+                        Launch New Session
                     </button>
                 </div>
 

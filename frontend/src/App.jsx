@@ -28,6 +28,9 @@ const DashboardRedirect = () => {
 };
 
 function App() {
+
+  // const { user } = useContext(AuthContext);
+
   return (
     <AuthProvider>
       <Router>
